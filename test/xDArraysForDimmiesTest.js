@@ -1,10 +1,11 @@
 /* eslint-disable prefer-arrow-callback */
 
 import { describe, it, beforeEach, afterEach } from 'mocha'
-import chai, { expect } from 'chai'
+import { expect } from 'chai'
 import sinon from 'sinon'
+import {dim} from '../src/xDArraysForDimmies'
 
-describe('Template', function () {
+describe('xDArraysForDimmies', function () {
 
   let sandbox
 
@@ -17,17 +18,26 @@ describe('Template', function () {
     sandbox.restore()
   })
 
-  describe('somfunction()', function () {
-    it('should ...', function () {
+  describe('dim()', function () {
+    it('1', function () {
+      return expect(dim(3,2,"x"))
+        .to.be.eqls([
+          ['x','x'],['x','x'],['x','x']
+        ])
+    })
+    it('2', function () {
+      return expect(dim(3,2,3,0))
+        .to.be.eqls([
+          [ [ 0, 0, 0 ], [ 0, 0, 0 ] ],
+          [ [ 0, 0, 0 ], [ 0, 0, 0 ] ],
+          [ [ 0, 0, 0 ], [ 0, 0, 0 ] ]
+        ])
+    })
+    it('3', function () {
+      const d = dim(3,2,3,0)
+      d[0][0][0] = 'A'
 
-      const stub = this.sinon.stub(Template.prototype, 'someFunction')
-        .returns(true)
-
-      return expect(Template.someFunction())
-        .and.that.be.true
-        .and.satisfy(() => (
-          sinon.assert.calledOnce(stub)
-        ) == null)
+      return expect(d[0].toString()).not.equal(d[1].toString())
     })
   })
 })
